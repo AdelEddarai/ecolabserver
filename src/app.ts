@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from "express";
-import path from "path";
 import cors from "cors";
 import morgan from "morgan";
 
@@ -7,17 +6,14 @@ const app: Express = express();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000", // Replace with your frontend URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
 
 app.enable("trust proxy");
 app.use(morgan("combined"));
-
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, "..", "public")));
-app.use(express.static(path.join(__dirname, "../../client/build")));
 
 // Define your TURN server configuration here
 const fallbackTurnServer = {
@@ -61,9 +57,16 @@ app.get("/api/get-avatar", async (req: Request, res: Response) => {
   return res.status(200).json({ data: `${baseUrl}/${randomImage}` });
 });
 
-app.get("/*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../client/build", 'index.html'));
-});
+// const frontEndUrl = "http://localhost:3000"; // Replace with your frontend URL for production
+
+// // Serve the front-end application.
+// app.get('/*', (req: Request, res: Response) => {
+//   res.redirect(frontEndUrl);
+// });
+
+app.get('/*', (req: Request, res: Response) => {
+  res.send('working')
+})
 
 // Serve static files from directories
 app.use(express.static("public"));

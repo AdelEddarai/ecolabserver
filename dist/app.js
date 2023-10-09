@@ -13,18 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
-    origin: "*",
+    origin: "http://localhost:3000",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }));
 app.enable("trust proxy");
 app.use((0, morgan_1.default)("combined"));
 app.use(express_1.default.json());
-app.use(express_1.default.static(path_1.default.join(__dirname, "..", "public")));
-app.use(express_1.default.static(path_1.default.join(__dirname, "../../client/build")));
 // Define your TURN server configuration here
 const fallbackTurnServer = {
     iceServers: [
@@ -64,8 +62,13 @@ app.get("/api/get-avatar", (req, res) => __awaiter(void 0, void 0, void 0, funct
     const randomImage = ""; // Implement this function to generate a random image URL
     return res.status(200).json({ data: `${baseUrl}/${randomImage}` });
 }));
-app.get("/*", (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, "../../client/build", 'index.html'));
+// const frontEndUrl = "http://localhost:3000"; // Replace with your frontend URL for production
+// // Serve the front-end application.
+// app.get('/*', (req: Request, res: Response) => {
+//   res.redirect(frontEndUrl);
+// });
+app.get('/*', (req, res) => {
+    res.send('working');
 });
 // Serve static files from directories
 app.use(express_1.default.static("public"));
