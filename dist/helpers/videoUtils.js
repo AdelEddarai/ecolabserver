@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendToPeer = exports.sendToRoom = exports.hangUp = exports.toggleCamera = exports.toggleAudio = exports.getRandomMemojiImage = void 0;
 const path_1 = __importDefault(require("path"));
-const promises_1 = require("node:fs/promises");
+const promises_1 = require("fs/promises");
 /**
  *
  * @param category "male" | "female"
